@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const MONGO_URL = "mongodb+srv://majk:qi3EUS2Wje91HR79@nasa-project.yvczt.mongodb.net/?retryWrites=true&w=majority&appName=nasa-project"
+dotenv.config();
+
+const MONGO_URL = process.env.MONGO_URL;
 
 mongoose.connection.once('open', () => {
 	console.log('MongoDB connection ready');

@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/v1';
+const API_URL = 'https://localhost:5000/v1/';
 
 async function httpGetPlanets() {
 	const returnedPlanets = await fetch(`${API_URL}planets`);
@@ -17,7 +17,7 @@ async function httpSubmitLaunch(launch) {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
-		},
+			},
 			body: JSON.stringify(launch),
 		});
 		return response;

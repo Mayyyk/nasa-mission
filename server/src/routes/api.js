@@ -1,10 +1,10 @@
 import express from 'express';
-import planetsRouter from './planets/planets.router.js';
 import launchesRouter from './launches/launches.router.js';
+import planetsRouter from './planets/planets.router.js';
 
 const api = express.Router();
 
-api.use('/v1/planets', planetsRouter);
-api.use('/v1/launches', launchesRouter);
+api.use('/launches', launchesRouter);
+api.use('/planets', planetsRouter);
 
 export default api;

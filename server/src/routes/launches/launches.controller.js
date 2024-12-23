@@ -5,9 +5,11 @@ import {
 	existsLaunchWithId,
 	abortLaunch,
 } from '../../models/launches.model.js';
+import { getPagination } from '../../services/query.js';
 
 async function httpGetAllLaunches(req, res) {
-	return res.status(200).json(await getAllLaunches());
+	const { skip, limit } = getPagination(req.query);
+	return res.status(200).json(await getAllLaunches(skip, limit));
 }
 
 async function httpCreateNewLaunch(req, res) {
