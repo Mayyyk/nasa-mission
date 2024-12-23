@@ -6,6 +6,8 @@ import { dirname } from 'path';
 import morgan from 'morgan';
 import api from './routes/api.js';
 import helmet from 'helmet';
+import passport from './services/passport.js';
+import authRouter from './routes/auth/auth.router.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,6 +39,8 @@ app.use(
 	})
 );
 
+app.use(passport.initialize());
+
 app.use(
 	cors({
 		origin: [
@@ -54,6 +58,10 @@ app.use(morgan('combined'));
 
 app.use(express.json());
 
+// Auth routes (before API routes)
+app.use('/auth', authRouter);
+
+// API routes
 app.use('/v1', api);
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
