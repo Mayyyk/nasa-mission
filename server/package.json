@@ -4,8 +4,8 @@
 	"main": "src/server.js",
 	"scripts": {
 		"watch": "set PORT=5000&& nodemon src/server.js",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
-		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --watch",
+		"test": "jest --detectOpenHandles --forceExit",
+		"test:watch": "jest --detectOpenHandles --forceExit --watch",
 		"start": "set PORT=5000&& node src/server.js",
 		"cluster": "pm2 start src/server.js -i 2 --name nasa-project-api -- -p 5000"
 	},
