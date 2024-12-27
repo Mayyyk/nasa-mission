@@ -59,12 +59,13 @@ const AppLayout = (props) => {
 		const params = new URLSearchParams(location.search);
 		if (params.get('auth') === 'success') {
 			setIsAuthenticated(true);
+			window.history.replaceState({}, '', '/');
 		}
 	}, [location]);
 
 	return (
 		<div className={classes.content}>
-			<Header onNav={animateFrame} />
+			<Header onNav={animateFrame} isAuthenticated={isAuthenticated} />
 			<Centered className={classes.centered}>
 				<Frame
 					animate

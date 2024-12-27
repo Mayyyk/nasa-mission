@@ -1,16 +1,22 @@
-import express from 'express';
+import api from './routes/api.js';
 import cors from 'cors';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import morgan from 'morgan';
-import api from './routes/api.js';
 import helmet from 'helmet';
+import morgan from 'morgan';
+import express from 'express';
+import { dirname } from 'path';
 import passport from './services/passport.js';
+import { fileURLToPath } from 'url';
 import authRouter from './routes/auth/auth.router.js';
+import cookieSession from 'cookie-session';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const keys = [process.env.COOKIE_KEY_1, process.env.COOKIE_KEY_2];
 
 const app = express();
 
@@ -39,7 +45,29 @@ app.use(
 	})
 );
 
+app.use(cookieSession({ // cookie-session is used to store the session in the cookie, data of the session is what came back from google 
+    name: 'auth-session',
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: keys,
+}));
+
+app.use((req, res, next) => { // workaround for cookie-session potential bug
+		if (req.session && !req.session.regenerate) {
+			req.session.regenerate = (cb) => {
+				cb();
+			};
+		}
+		if (req.session && !req.session.save) {
+			req.session.save = (cb) => {
+				cb();
+			};
+		}
+	next();
+});
+
 app.use(passport.initialize());
+
+app.use(passport.session()); // this is needed for passport to work with cookie-session, it authenticates the session
 
 app.use(
 	cors({

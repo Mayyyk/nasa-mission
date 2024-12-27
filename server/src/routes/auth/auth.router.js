@@ -15,7 +15,7 @@ authRouter.get(
 	passport.authenticate('google', {
 		failureRedirect: '/failure',
 		successRedirect: '/launch?auth=success',
-		session: false,
+		session: true,
 	})
 );
 
@@ -23,8 +23,15 @@ authRouter.get('/failure', (req, res) => {
 	res.send('Failed to authenticate');
 });
 
-authRouter.get('/logout', (req, res) => {
-	res.send('Goodbye!');
+authRouter.get('/logout', (req, res, next) => {
+
+	req.logout((err) => {
+		if (err) {
+			return next(err);
+		}
+		res.redirect('/')
+	});
 });
+
 
 export default authRouter;
