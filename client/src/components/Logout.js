@@ -14,7 +14,7 @@ const styles = () => ({
 });
 
 const Logout = (props) => {
-	const { classes, sounds } = props;
+	const { classes } = props;
 
 	const handleLogout = async () => {
 		try {
